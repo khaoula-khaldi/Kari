@@ -1,3 +1,8 @@
+<?php  
+    require_once __DIR__.'/../src/rental.php';
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -32,29 +37,41 @@
             </a>
         </div>
 
-        <!-- Grid des logements -->
+
+<?php   $rental = new Rental($pdo, $_SESSION['user_id'], "", "", "", "", 0.0, 0, "", "");
+
+        $allRentals=$rental->affichRental($_SESSION['user_id']);  ?>
+        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Exemple de carte logement (à générer dynamiquement avec PHP) -->
+            <?php  foreach($allRentals as $r): ?>
+            
             <div class="bg-white rounded-2xl shadow p-6 flex flex-col">
-                <img src="image_logement.jpg" alt="Titre logement" class="rounded-xl mb-4 h-48 w-full object-cover">
-                <h3 class="text-xl font-semibold mb-2">Appartement Paris</h3>
-                <p class="text-gray-600 mb-2">Paris, France</p>
-                <p class="text-gray-800 font-semibold mb-2">Prix par nuit: 120€</p>
-                <p class="text-gray-600 mb-4">Capacité: 4 personnes</p>
+                <img src="<?= htmlspecialchars($r['image_url']) ?>" alt="<?= htmlspecialchars($r['title']) ?>" class="rounded-xl mb-4 h-48 w-full object-cover">
+                <h3 class="text-xl font-semibold mb-2"><?= htmlspecialchars($r['title']) ?></h3>
+                <p class="text-gray-600 mb-2"><?= htmlspecialchars($r['city']) ?></p>
+                <p class="text-gray-800 font-semibold mb-2">Prix par nuit: <?= htmlspecialchars($r['price_per_night']) ?> €</p>
+                <p class="text-gray-600 mb-4">Capacité: <?= htmlspecialchars($r['capacity']) ?>  personnes</p>
 
                 <div class="mt-auto flex gap-2">
-                    <a href="edit_rental.php?id=1"
-                       class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-2 px-4 rounded-xl transition">
-                        Modifier
-                    </a>
-                    <a href="delete_rental.php?id=1"
-                       class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-xl transition">
-                        Supprimer
-                    </a>
+                    <form action="update_rental.php" method="POST">
+                        <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                        <button type="submit"
+                            class="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold py-2 px-4 rounded-xl transition">
+                            Modifier
+                        </button>
+                    </form>    
+                    <form action="delet_rental.php" method="POST">
+                        <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                        <button type="submit" 
+                            class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-xl transition">
+                            Supprimer
+                        </button>
+                    </form>
                 </div>
             </div>
 
-            <!-- Tu peux répéter cette carte pour chaque logement de l'hôte -->
+            <?php endforeach; ?>
+   
         </div>
     </section>
 </main>
