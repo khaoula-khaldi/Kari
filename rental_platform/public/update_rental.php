@@ -8,17 +8,17 @@ if(!isset($_SESSION['user_id'])) {
     exit;
 }
 
-$rentalObj = new Rental($pdo, $_SESSION['user_id'], "", "", "", "", 0.0, 0, "", "");
-
 if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['id'])){
     $id = (int) $_POST['id'];
+    
+    $rentalObj = new Rental($pdo, $id, "", "", "", "", 0.0, 0, "", "");
+
     $rental = $rentalObj->affichRentalById($id);
 
     if(empty($rental)){
         die("Logement non trouvé");
     }
 
-    
     if($rental['host_id'] !== $_SESSION['user_id']){
         die("Accès refusé");
     }
@@ -37,8 +37,10 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['id'])){
 <main class="max-w-4xl mx-auto pt-24 px-6">
     <h2 class="text-3xl font-bold mb-6">Modifier le logement</h2>
 
-    <form method="POST"  enctype ="multipart/form-data"
+    <form  method="POST" action="update_rental_tretment.php" enctype="multipart/form-data"
           class="bg-white p-6 rounded-2xl shadow flex flex-col gap-4">
+
+        <input type="hidden" name="id" value="<?= $id ?>">
         
         <input type="text" name="title"
                value="<?= htmlspecialchars($rental['title']) ?>"
@@ -84,37 +86,3 @@ if($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['id'])){
 
 </body>
 </html>
-
-<?php 
-    if($_SERVER['REQUEST_METHOD']==='POST'){
-        $host_id=$_SESSION['user_id'];
-        $title=$_POST['title'];
-        $description=$_POST['description'];
-        $address=$_POST['address'];
-        $city=$_POST['city'];
-        $price_per_night=$_POST['price_per_night'];
-        $capacity=(int)$_POST['capacity'];
-        $available_dates=$_POST['available_dates'];
-
-                $imagePath = null;
-        if($_FILES['image']['error']===0){
-            $uploadDir = __DIR__.'/uploads/';
-            if(!is_dir($uploadDir)){
-                mkdir($uploadDir,0777,true);
-            }
-            $fileName = time() . '_'.$_FILES['image']['name'];
-            $destination = $uploadDir . $fileName;
-
-            move_uploaded_file($_FILES['image']['tmp_name'], $destination);
-
-            
-            $imagePath = 'uploads/' . $fileName;
-        }
-
-        if($rentalObj->updateRental($_SESSION['user_id'], $host_id, $title, $description, $address,  $city,  $price_per_night,  $capacity,  $imagePath,  $available_dates)){
-            header('Location: Rental.php');
-        }else{
-            header('Location: update_rental.php');
-        }
-    }
-?>

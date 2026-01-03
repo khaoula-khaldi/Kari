@@ -28,7 +28,7 @@ if (!isset($_SESSION['user_id'])) {
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold text-red-500">MyRental</h1>
         <nav class="flex gap-6">
-            <a href="home.php" class="text-gray-700 hover:text-red-500 font-semibold">Accueil</a>
+            <a href="allRental.php" class="text-gray-700 hover:text-red-500 font-semibold">Accueil</a>
             <a href="profil.php" class="text-gray-700 hover:text-red-500 font-semibold">Profil</a>
             <a href="reservations.php" class="text-gray-700 hover:text-red-500 font-semibold">Réservations</a>
             <a href="logout.php" class="text-gray-700 hover:text-red-500 font-semibold">Déconnexion</a>

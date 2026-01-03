@@ -61,9 +61,16 @@ class Rental{
     }  
     
     public function updateRental(  int $id,int $host_id,string $title,string $description,string $address, string $city, float $price_per_night, int $capacity, string $image_url, string $available_dates): bool {
-        $stmt=$this->pdo->prepare("UPDATE SET title=?, description=?,  address=?,city=?,price_per_night=?, capacity=?, image_url=?, available_dates=? WHERE id=? AND host_id=?");
+        $stmt=$this->pdo->prepare("UPDATE rentals SET title=?, description=?,  address=?,city=?,price_per_night=?, capacity=?, image_url=?, available_dates=? WHERE id=? AND host_id=?");
         return $stmt->execute([$title, $description, $address, $city, $price_per_night,$capacity,$image_url,$available_dates,$id,$host_id]);
     }
+
+    public function affichAll() {
+        $stmt = $this->pdo->prepare("SELECT * FROM rentals");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 }
 ?>
