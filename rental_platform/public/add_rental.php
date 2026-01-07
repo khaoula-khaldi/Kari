@@ -78,16 +78,16 @@
         $capacity=(int)$_POST['capacity'];
         $available_dates=$_POST['available_dates'];
         
-        $imagePath = null;
-        if($_FILES['image']['error']===0){
-            $uploadDir = __DIR__.'/uploads/';
-            if(!is_dir($uploadDir)){
-                mkdir($uploadDir,0777,true);
+        $imagePath = null;//variable nuul pour stokes file de image
+        if($_FILES['image']['error']===0){//chik est ce que n'a pas une erreur de upload de image
+            $uploadDir = __DIR__.'/uploads/';//kndero variable pour stokes url de image = __DIR__. url de file qui entaint de modifier '/uploads/  dosier qui permeter de stokes url complet de dosier 
+            if(!is_dir($uploadDir)){//is_dir hiya fct katchiki wash dak ficher kyn deja ola la ktreturni true ola false 
+                mkdir($uploadDir,0777,true);//mkdir katcree ficher ila mknch tahiya fct deja kyna fi php 
             }
-            $fileName = time() . '_'.$_FILES['image']['name'];
-            $destination = $uploadDir . $fileName;
+            $fileName = time() . '_'.$_FILES['image']['name'];//ktsayeeeb wahed nom unique ldeeq image
+            $destination = $uploadDir . $fileName;//url final pour cette image
 
-            move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+            move_uploaded_file($_FILES['image']['tmp_name'], $destination);//fct deja kynaaa fi php katstokes dook les img li kidkhlo  
 
             
             $imagePath = 'uploads/' . $fileName;

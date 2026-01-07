@@ -57,11 +57,11 @@ class Rental{
 
     public function deletRental(int $id): bool {
         $stmt = $this->pdo->prepare("DELETE FROM rentals WHERE id=?");
-        return $stmt->execute([$id]) ;
+        return $stmt->execute([$id]);
     }  
     
     public function updateRental(  int $id,int $host_id,string $title,string $description,string $address, string $city, float $price_per_night, int $capacity, string $image_url, string $available_dates): bool {
-        $stmt=$this->pdo->prepare("UPDATE rentals SET title=?, description=?,  address=?,city=?,price_per_night=?, capacity=?, image_url=?, available_dates=? WHERE id=? AND host_id=?");
+        $stmt=$this->pdo->prepare("UPDATE rentals SET title=?, description=?,  address=?, city=?, price_per_night=?, capacity=?, image_url=?, available_dates=? WHERE id=? AND host_id=?");
         return $stmt->execute([$title, $description, $address, $city, $price_per_night,$capacity,$image_url,$available_dates,$id,$host_id]);
     }
 
@@ -71,6 +71,30 @@ class Rental{
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function search($city=null,$price_per_night=null,$available_dates=null){
+        $sql="SELECT * FROM rentals WHERE 1=1 ";
+        $parametres=[];
+
+        if(!empty($city)){
+            $sql.="AND city=:city ";
+            $parametres['city']=$city;
+        }
+
+        if(!empty($price)){
+            $sql.="AND price=:price ";
+            $parametres['price']=$price;
+        }
+
+        if(!empty($available_dates)){
+            $sql.="AND available_dates=:available_dates ";
+            $parametres['available_dates']=$available_dates;
+        }
+
+       $stmt=$this->pdo->prepare($sql);
+       $stmt->execute($parametres);
+       
+       return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 ?>

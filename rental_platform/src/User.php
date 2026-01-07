@@ -23,6 +23,18 @@ class User {
         // $this->id = $id;
     }
 
+    public function isAdmin(): bool {
+        return $this->role === 'admin';
+    }
+
+    public function isHost(): bool {
+        return $this->role === 'host';
+    }
+
+    public function isTraveler(): bool {
+        return $this->role === 'traveler';
+    }
+
     public function emailExists(): bool {
         $stmt = $this->pdo->prepare("SELECT id FROM users WHERE email=?");
         $stmt->execute([$this->email]);

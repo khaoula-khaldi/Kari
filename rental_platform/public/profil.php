@@ -1,7 +1,9 @@
 <?php
 session_start();
+$user_id=$_SESSION['user_id'];
 require_once __DIR__ . '/../config/config.php';
 require_once __DIR__ . '/../src/User.php';
+require_once __DIR__ . '/../src/Booking.php';
 
 $database = new Database();
 $pdo = $database->getConnection();
@@ -30,7 +32,7 @@ if (!isset($_SESSION['user_id'])) {
         <nav class="flex gap-6">
             <a href="allRental.php" class="text-gray-700 hover:text-red-500 font-semibold">Accueil</a>
             <a href="profil.php" class="text-gray-700 hover:text-red-500 font-semibold">Profil</a>
-            <a href="reservations.php" class="text-gray-700 hover:text-red-500 font-semibold">Réservations</a>
+            <a href="favoris.php" class="text-gray-700 hover:text-red-500 font-semibold">Mes Favoris</a>
             <a href="logout.php" class="text-gray-700 hover:text-red-500 font-semibold">Déconnexion</a>
         </nav>
     </div>
@@ -78,7 +80,7 @@ if (!isset($_SESSION['user_id'])) {
             $email=$_POST['email'];
             $user = new User($pdo, $name, $email, '', '');
             if($user->update()){
-                header('Location: profil.php'); // page après update
+                header('Location: profil.php'); // page apres
                 exit;
             } else {
                 $errorMessage = "Erreur lors de la mise à jour du profil";
@@ -86,26 +88,30 @@ if (!isset($_SESSION['user_id'])) {
         }
     ?>
 
-    <!-- Section Réservations (placeholder Airbnb style) -->
+    <!--  Reservations -->
     <section>
         <h2 class="text-3xl font-bold mb-6 text-gray-800">Mes réservations</h2>
+        <?php $BookingObj=new Booking($pdo);
+            $bookings =$BookingObj->findUserBookings($user_id);
+         ?>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white rounded-2xl shadow p-6">
-                <h3 class="font-semibold text-lg mb-2">Appartement Paris</h3>
-                <p>Date: 12 Jan 2026 - 15 Jan 2026</p>
-                <p>Status: <span class="text-green-600 font-semibold">Confirmée</span></p>
-            </div>
-            <div class="bg-white rounded-2xl shadow p-6">
-                <h3 class="font-semibold text-lg mb-2">Maison Marrakech</h3>
-                <p>Date: 20 Jan 2026 - 25 Jan 2026</p>
-                <p>Status: <span class="text-yellow-600 font-semibold">En attente</span></p>
-            </div>
-            <div class="bg-white rounded-2xl shadow p-6">
-                <h3 class="font-semibold text-lg mb-2">Studio Casablanca</h3>
-                <p>Date: 05 Fév 2026 - 08 Fév 2026</p>
-                <p>Status: <span class="text-red-600 font-semibold">Annulée</span></p>
-            </div>
+                <?php foreach($bookings as $r): 
+                    $total_price = $BookingObj->total_price($r['rental_id'], $r['start_date'], $r['end_date']);
+                ?>
+                <div class="bg-white rounded-2xl shadow p-6">
+                    <img src="<?= htmlspecialchars($r['image_url']) ?>" alt="<?= htmlspecialchars($r['title']) ?>" class="rounded-xl mb-4 h-48 w-full object-cover">
+                    <h3 class="font-semibold text-lg mb-2"><?= htmlspecialchars($r['title']) ?></h3>
+                    <p>Date: <?= htmlspecialchars($r['start_date']) ?> - <?= htmlspecialchars($r['end_date']) ?></p>
+                    <p>Status: <span class="text-green-600 font-semibold"><?= htmlspecialchars($r['reservation_status']) ?></span></p>
+                    <p>Price total: <?= htmlspecialchars($total_price) ?> €</p>
+
+                <form method="POST" action="cancel_booking.php">
+                    <input type="hidden" name="rental_id" value="<?= $r['rental_id'] ?>">
+                    <button type="submit" class="bg-red-400 px-4 py-2 rounded-xl text-white mt-5">Annuler</button>
+                </form>
+                </div>
+                <?php endforeach; ?>
         </div>
     </section>
 </main>

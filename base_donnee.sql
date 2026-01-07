@@ -12,7 +12,6 @@ CREATE TABLE users (
 );
 
 
-
 CREATE TABLE rentals (
     id INT AUTO_INCREMENT PRIMARY KEY,
     host_id INT NOT NULL,            -- référence vers users.id (l’hôte)
@@ -42,13 +41,14 @@ CREATE TABLE reviews (
     FOREIGN KEY (rental_id) REFERENCES rentals(id)
 );
 
+
 CREATE TABLE reservations (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,        
     rental_id INT NOT NULL,      
     start_date DATE NOT NULL,    
     end_date DATE NOT NULL,     
-    status BOOLEAN DEFAULT 0,
+    status ENUM('pending','confirmed','cancelled') DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES users(id),
@@ -56,15 +56,23 @@ CREATE TABLE reservations (
 );
 
 
-
-
-
-
-
-
-
-
-
-
+CREATE TABLE favoris(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,        
+    rental_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (rental_id) REFERENCES rentals(id)
+);
+USE Kari;
+SELECT 
+                r.id AS rental_id,
+                r.title,
+                r.city,
+                r.price_per_night,
+                r.image_url
+            FROM favoris f
+            INNER JOIN rentals r ON r.id = f.rental_id
+            WHERE f.user_id = 2
+            ORDER BY f.id DESC
 
 
