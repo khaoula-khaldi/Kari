@@ -92,4 +92,10 @@ class Booking{
         return $count;
     }
 
+    public function getAllReservation(){
+        $stmt=$this->pdo->prepare("SELECT * FROM reservations");
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
 }

@@ -1,5 +1,6 @@
 <?php 
  class Favorie{
+    private int $id;
     private int $user_id;
     private int $rental_id;
     private PDO $pdo;
@@ -18,24 +19,33 @@
         return $stmt->execute([$user_id,$rental_id]);
     }
 
-    public function findUserFavorites(int $userId): array{
+    public function findUserFavorites(int $user_id): array{
         $sql = "
             SELECT 
                 r.id AS rental_id,
                 r.title,
                 r.city,
                 r.price_per_night,
-                r.image_url
+                r.capacity,
+                r.image_url,
+                u.id AS user_id,
+                u.name AS user_name
             FROM favoris f
             INNER JOIN rentals r ON r.id = f.rental_id
-            WHERE f.user_id = ?
+            INNER JOIN users u ON u.id = f.user_id
             ORDER BY f.id DESC
+
         ";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute([$userId]);
+        $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function annelerFavorise($id):bool{
+        $stmt=$this->pdo->prepare("DELETE FROM favoris WHERE id=?");
+        return $stmt->execute([$id]);
     }
 
     

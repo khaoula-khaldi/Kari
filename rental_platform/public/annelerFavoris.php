@@ -8,12 +8,12 @@ $database = new Database();
 $pdo = $database->getConnection();
 
 if($_SERVER['REQUEST_METHOD']==='POST'){
-    $rental_id=$_POST['rental_id'];
-    $user_id=$_POST['user_id'];
+    $id=$_POST['rental_id'];
 
     $favoris=new Favorie($pdo);
-    $ajoute=$favoris->add($user_id,$rental_id);
-    header('Location: allRental.php');
+    if($supprime=$favoris->annelerFavorise($id)){
+    header('Location: favoris.php');
+    }
 }
 
 ?>

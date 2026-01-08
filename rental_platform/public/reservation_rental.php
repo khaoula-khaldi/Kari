@@ -3,6 +3,9 @@ session_start();
 require_once __DIR__."/../config/config.php";
 require_once __DIR__ . '/../src/rental.php';
 require_once __DIR__ . '/../src/Booking.php';
+require_once __DIR__ . "/../src/Mailer.php";
+
+$mailer = new Mailer();
 
 
 if(!isset($_SESSION['user_id'])){
@@ -33,6 +36,11 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                 if($is_available === 0){
                     if($bookingObj->create($user_id, $rental_id, $start_date, $end_date)){
+                        // Notification pour le voyageur
+                        $mailer->sendBookingConfirmation($travelerEmail, $travelerName, $rentalTitle);
+
+                        // Notification pour l’hôte
+                        $mailer->sendBookingConfirmation($hostEmail, $hostName, $rentalTitle);
                         header('Location: allRental.php');
                         exit;
                     } 

@@ -18,7 +18,7 @@ class User {
         $this->pdo = $pdo;
         $this->nom = $nom;
         $this->email = $email;
-        $this->password = $password; // plaintext pour login
+        $this->password = $password; 
         $this->role = $role;
         // $this->id = $id;
     }
@@ -43,7 +43,7 @@ class User {
 
     public function register(): bool {
         if($this->emailExists()){
-            return false; // email déjà exist
+            return false; 
         }
         $stmt = $this->pdo->prepare(
             "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)"
@@ -51,7 +51,7 @@ class User {
         return $stmt->execute([
             $this->nom,
             $this->email,
-            password_hash($this->password, PASSWORD_DEFAULT), // hash ici
+            password_hash($this->password, PASSWORD_DEFAULT), 
             $this->role
         ]);
     }
@@ -76,23 +76,33 @@ class User {
     }
 
     public function update(): bool {
-    // Session start wajib ila mazal ma startach
-    if(session_status() !== PHP_SESSION_ACTIVE){
-        session_start();
+        // Session start wajib ila mazal ma startach
+        if(session_status() !== PHP_SESSION_ACTIVE){
+            session_start();
+        }
+
+        $stmt = $this->pdo->prepare("UPDATE users SET name=?, email=? WHERE id=?");
+        $success = $stmt->execute([$this->nom, $this->email, $_SESSION['user_id']]);
+
+        // Refresh session si update réussi
+        if($success){
+            $_SESSION['user_name'] = $this->nom;
+            $_SESSION['user_email'] = $this->email;
+        }
+
+        return $success;
     }
 
-    $stmt = $this->pdo->prepare("UPDATE users SET name=?, email=? WHERE id=?");
-    $success = $stmt->execute([$this->nom, $this->email, $_SESSION['user_id']]);
-
-    // Refresh session si update réussi
-    if($success){
-        $_SESSION['user_name'] = $this->nom;
-        $_SESSION['user_email'] = $this->email;
+    public function getAllUser():array{
+        $stmt=$this->pdo->prepare("SELECT * FROM users WHERE role!='admin'");
+        $stmt->execute();
+         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    return $success;
-}
+    public function Is_Active($value,$user_id){
+        $stmt=$this->pdo("UPDATE users SET is_active=? WHERE user_id=?");
+        $stmt->execute([$value,$user_id]);
+    }
 
 
 }
-?>

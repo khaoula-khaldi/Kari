@@ -73,6 +73,9 @@ SELECT
             FROM favoris f
             INNER JOIN rentals r ON r.id = f.rental_id
             WHERE f.user_id = 2
-            ORDER BY f.id DESC
+            ORDER BY f.id DESC;
+       
 
-
+USE Kari;
+SELECT id, user_id, rental_id
+FROM favoris;

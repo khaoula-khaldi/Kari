@@ -96,5 +96,15 @@ class Rental{
        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function deactivateRental($id):bool {
+        $stmt = $this->pdo->prepare("UPDATE rentals SET status = 'inactive' WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
+
+    public function activateRental($id):bool {
+        $stmt = $this->pdo->prepare("UPDATE rentals SET status = 'active' WHERE id = ?");
+        return $stmt->execute([$id]);
+    }
+
 }
 ?>

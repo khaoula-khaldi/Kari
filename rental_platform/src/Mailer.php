@@ -2,7 +2,10 @@
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require_once __DIR__ . "/../vendor/autoload.php";
+// Vérifier le chemin
+$autoloadPath = __DIR__ . '/../vendor/autoload.php';
+// Charger PHPMailer via Composer
+require_once $autoloadPath;
 
 class Mailer {
     private PHPMailer $mail;
@@ -14,12 +17,12 @@ class Mailer {
             $this->mail->isSMTP();
             $this->mail->Host       = 'smtp.example.com';
             $this->mail->SMTPAuth   = true;
-            $this->mail->Username   = 'ton-email@example.com';
-            $this->mail->Password   = 'ton-motdepasse';
+            $this->mail->Username   = 'khaoula2417@gmail.com';
+            $this->mail->Password   = 'uwfe xdif nsym ohxq';
             $this->mail->SMTPSecure = 'tls';
             $this->mail->Port       = 587;
 
-            $this->mail->setFrom('no-reply@example.com', 'Booking Platform');
+            $this->mail->setFrom('khaoula2417@gmail.com', 'Booking Platform');
             $this->mail->isHTML(true);
         } catch (Exception $e) {
             echo "Mailer Error: {$this->mail->ErrorInfo}";

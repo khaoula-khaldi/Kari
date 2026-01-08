@@ -28,9 +28,10 @@ if (!isset($_SESSION['user_id'])) {
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold text-red-500">MyRental</h1>
         <nav class="flex gap-6">
-            <a href="home.php" class="text-gray-700 hover:text-red-500 font-semibold">Accueil</a>
+            <a href="dashbord.php" class="text-gray-700 hover:text-red-500 font-semibold">Utilisateurs</a>
             <a href="profilAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Profil</a>
-            <a href="reservations.php" class="text-gray-700 hover:text-red-500 font-semibold">Réservations</a>
+            <a href="rentalAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Longment</a>
+            <a href="bookingsAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Reservation</a>
             <a href="logout.php" class="text-gray-700 hover:text-red-500 font-semibold">Déconnexion</a>
         </nav>
     </div>
@@ -86,28 +87,4 @@ if (!isset($_SESSION['user_id'])) {
         }
     ?>
 
-    <!-- Section Réservations (placeholder Airbnb style) -->
-    <section>
-        <h2 class="text-3xl font-bold mb-6 text-gray-800">Mes réservations</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div class="bg-white rounded-2xl shadow p-6">
-                <h3 class="font-semibold text-lg mb-2">Appartement Paris</h3>
-                <p>Date: 12 Jan 2026 - 15 Jan 2026</p>
-                <p>Status: <span class="text-green-600 font-semibold">Confirmée</span></p>
-            </div>
-            <div class="bg-white rounded-2xl shadow p-6">
-                <h3 class="font-semibold text-lg mb-2">Maison Marrakech</h3>
-                <p>Date: 20 Jan 2026 - 25 Jan 2026</p>
-                <p>Status: <span class="text-yellow-600 font-semibold">En attente</span></p>
-            </div>
-            <div class="bg-white rounded-2xl shadow p-6">
-                <h3 class="font-semibold text-lg mb-2">Studio Casablanca</h3>
-                <p>Date: 05 Fév 2026 - 08 Fév 2026</p>
-                <p>Status: <span class="text-red-600 font-semibold">Annulée</span></p>
-            </div>
-        </div>
-    </section>
-</main>
-</body>
-</html>
+  
