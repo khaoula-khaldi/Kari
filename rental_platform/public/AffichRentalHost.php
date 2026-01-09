@@ -50,8 +50,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold text-red-500">MyRental</h1>
         <nav class="flex gap-6">
-            <a href="profilHost.php" class="font-semibold">Profil</a>
-            <a href="logout.php" class="font-semibold">Déconnexion</a>
+            <a href="AffichRentalHost.php" class="text-gray-700 hover:text-red-500 font-semibold">Accueil</a>
+            <a href="profilHost.php" class="text-gray-700 hover:text-red-500 font-semibold">Profil</a>
+            <a href="Rental.php" class="text-gray-700 hover:text-red-500 font-semibold">Rentale</a>
+            <a href="logout.php" class="text-gray-700 hover:text-red-500 font-semibold">Déconnexion</a>
         </nav>
     </div>
 </header>
@@ -122,12 +124,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
                         </button>
                     </form>
 
-                    <form action="tretment_favoris.php" method="POST">
+                    <form action="is_active.php" method="POST">
                         <input type="hidden" name="rental_id" value="<?= $r['id'] ?>">
                         <input type="hidden" name="user_id" value="<?= $r['host_id'] ?>">
 
                         <button class="bg-pink-400 px-4 py-2 rounded-xl text-white mt-5">
-                            favoris
+                            is_active
                         </button>
                     </form>
                 </div>

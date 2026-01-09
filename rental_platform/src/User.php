@@ -12,7 +12,7 @@ class User {
     protected string $email;
     protected string $password;
     protected string $role;
-    protected $pdo; 
+    private PDO $pdo; 
 
     public function __construct($pdo, string $nom, string $email, string $password, string $role) {
         $this->pdo = $pdo;
@@ -57,7 +57,7 @@ class User {
     }
 
     public function login(): bool {
-        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email=?");
+        $stmt = $this->pdo->prepare("SELECT * FROM users WHERE email=? && is_active='active'");
         $stmt->execute([$this->email]);
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -101,8 +101,16 @@ class User {
 
     public function Is_Active($value,$user_id){
         $stmt=$this->pdo("UPDATE users SET is_active=? WHERE user_id=?");
-        $stmt->execute([$value,$user_id]);
+       return $stmt->execute([$value,$user_id]);
     }
+
+   
+
+
+
+    // public function is_acrtiveRental(){
+    //     $stmt=$this->pdo->prepare("UPDATE rentals ")
+    // }
 
 
 }

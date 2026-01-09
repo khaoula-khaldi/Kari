@@ -53,10 +53,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
             <a href="dashbord.php" class="text-gray-700 hover:text-red-500 font-semibold">Utilisateurs</a>
             <a href="profilAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Profil</a>
             <a href="rentalAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Longment</a>
+            <a href="bookingsAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Reservation</a>
+            <a href="statisticAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Statistique</a>
             <a href="logout.php" class="text-gray-700 hover:text-red-500 font-semibold">Déconnexion</a>
         </nav>
     </div>
 </header>
+
 
 <main class="pt-32 max-w-6xl mx-auto px-6">
 

@@ -3,15 +3,15 @@ session_start();
 require_once __DIR__."/../config/config.php";
 require_once __DIR__ . '/../src/rental.php';
 require_once __DIR__ . '/../src/Booking.php';
+require_once __DIR__ . '/../src/User.php';
 require_once __DIR__ . "/../src/Mailer.php";
-
-$mailer = new Mailer();
 
 
 if(!isset($_SESSION['user_id'])){
     header('Location: login.php');
     exit;
 }
+$user_id=$_SESSION['user_id'];
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     $user_id = $_SESSION['user_id'];
@@ -36,11 +36,12 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
                 if($is_available === 0){
                     if($bookingObj->create($user_id, $rental_id, $start_date, $end_date)){
-                        // Notification pour le voyageur
-                        $mailer->sendBookingConfirmation($travelerEmail, $travelerName, $rentalTitle);
+                       
+                        // $rentals = new Rental($pdo,(int) , '', '', '','','0.00','','','');
+                       $database = new Database();
+                         $pdo = $database->getConnection();
+                        Mailer::sendBookingConfirmation(Rental::emailHost($pdo,$user_id), $rental_id);
 
-                        // Notification pour l’hôte
-                        $mailer->sendBookingConfirmation($hostEmail, $hostName, $rentalTitle);
                         header('Location: allRental.php');
                         exit;
                     } 

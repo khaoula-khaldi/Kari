@@ -37,10 +37,12 @@ $affich=$booking->getAllReservation();
             <a href="profilAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Profil</a>
             <a href="rentalAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Longment</a>
             <a href="bookingsAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Reservation</a>
+            <a href="statisticAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Statistique</a>
             <a href="logout.php" class="text-gray-700 hover:text-red-500 font-semibold">Déconnexion</a>
         </nav>
     </div>
 </header>
+
 
 <!-- CONTENT -->
 <main class="p-6">
@@ -63,30 +65,42 @@ $affich=$booking->getAllReservation();
         </tr>
       </thead>
 
-      <tbody>
+<tbody>
+<?php foreach ($affich as $a): ?>
+  <tr class="border-b hover:bg-gray-50">
+    <td class="px-6 py-4 font-medium">
+      <?= htmlspecialchars($a['name']) ?>
+    </td>
 
-<?php  foreach($affich as $a)   ?>
-       
-        <tr class="border-b hover:bg-gray-50">
-          <td class="px-6 py-4 font-medium"><?php     ?></td>
-          <td class="px-6 py-4 text-gray-600">ahmed@email.com</td>
-          <td class="px-6 py-4">Appartement Centre</td>
-          <td class="px-6 py-4">2025-01-10</td>
-          <td class="px-6 py-4">2025-01-15</td>
-          <td class="px-6 py-4">
-            <span class="px-3 py-1 rounded-full text-sm bg-green-100 text-green-700">
-              Confirmée
-            </span>
-          </td>
-          <td class="px-6 py-4 text-center space-x-3">
-            <button class="text-blue-600 hover:underline">Voir</button>
-            <button class="text-red-500 hover:underline">Annuler</button>
-          </td>
-        </tr>
+    <td class="px-6 py-4 text-gray-600">
+      <?= htmlspecialchars($a['email']) ?>
+    </td>
 
+    <td class="px-6 py-4">
+      <?= htmlspecialchars($a['title']) ?>
+    </td>
 
+    <td class="px-6 py-4">
+      <?= $a['date_debut'] ?>
+    </td>
 
-      </tbody>
+    <td class="px-6 py-4">
+      <?= $a['date_fin'] ?>
+    </td>
+
+    <td class="px-6 py-4">
+      <span class="px-3 py-1 rounded-full text-sm bg-green-100 text-green-700">
+        <?= $a['status'] ?? 'pending' ?>
+      </span>
+    </td>
+
+    <td class="px-6 py-4 text-center space-x-3">
+      <button class="text-red-500 hover:underline">Annuler</button>
+    </td>
+  </tr>
+<?php endforeach; ?>
+</tbody>
+
     </table>
   </div>
 </main>

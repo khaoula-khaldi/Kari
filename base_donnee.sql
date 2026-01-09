@@ -7,6 +7,7 @@ CREATE TABLE users (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(150) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    is_active varchar(255) DEFAULT 'active',
     role ENUM('traveler','host','admin') NOT NULL DEFAULT 'traveler', 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
@@ -14,7 +15,7 @@ CREATE TABLE users (
 
 CREATE TABLE rentals (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    host_id INT NOT NULL,            -- référence vers users.id (l’hôte)
+    host_id INT NOT NULL,            
     title VARCHAR(255) NOT NULL,
     description TEXT,
     address VARCHAR(255),
@@ -22,24 +23,13 @@ CREATE TABLE rentals (
     price_per_night DECIMAL(10,2),
     capacity INT,
     image_url VARCHAR(255),
-    available_dates TEXT,            -- ou JSON si tu veux stocker plusieurs dates
+    available_dates TEXT,        
+    is_active varchar(255) DEFAULT 'active',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (host_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-
-CREATE TABLE reviews (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,        
-    rental_id INT NOT NULL,     
-    nb_etoiles INT NOT NULL, 
-    commentaire TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (rental_id) REFERENCES rentals(id)
-);
 
 
 CREATE TABLE reservations (
@@ -56,6 +46,22 @@ CREATE TABLE reservations (
 );
 
 
+CREATE TABLE reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,        
+    rental_id INT NOT NULL,     
+    rating TINYINT NOT NULL CHECK (rating BETWEEN 1 AND 5), 
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (rental_id) REFERENCES rentals(id) ON DELETE CASCADE,
+    UNIQUE (user_id, rental_id)
+);
+
+
+
+
 CREATE TABLE favoris(
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,        
@@ -63,19 +69,7 @@ CREATE TABLE favoris(
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (rental_id) REFERENCES rentals(id)
 );
-USE Kari;
-SELECT 
-                r.id AS rental_id,
-                r.title,
-                r.city,
-                r.price_per_night,
-                r.image_url
-            FROM favoris f
-            INNER JOIN rentals r ON r.id = f.rental_id
-            WHERE f.user_id = 2
-            ORDER BY f.id DESC;
-       
 
-USE Kari;
-SELECT id, user_id, rental_id
-FROM favoris;
+
+
+

@@ -106,5 +106,21 @@ class Rental{
         return $stmt->execute([$id]);
     }
 
+    //  public static function emailHost(){
+    //     $stmt=$pdo->prepare("select u.email from rentals r join users u  ON r.host_id=u.id WHERE r.id=?");
+    //     $stmt->execute([$id]);
+    //     $res=$stmt->fetch(PDO::FETCH_ASSOC);
+    //     return $res['email'];
+    
+    // }
+    
+    public static function emailHost(PDO $pdo, int $id): string {
+    $stmt = $pdo->prepare("SELECT u.email FROM rentals r JOIN users u ON r.host_id = u.id WHERE r.id=?");
+    $stmt->execute([$id]);
+    $res = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $res['email'] ?? '';
+}
+
+
 }
 ?>

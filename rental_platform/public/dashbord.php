@@ -31,13 +31,16 @@
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <h1 class="text-2xl font-bold text-red-500">MyRental</h1>
         <nav class="flex gap-6">
-            <a href="dashbord.php" class="text-gray-700 hover:text-red-500 font-semibold">Utilisateurs </a>
+            <a href="dashbord.php" class="text-gray-700 hover:text-red-500 font-semibold">Utilisateurs</a>
             <a href="profilAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Profil</a>
             <a href="rentalAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Longment</a>
+            <a href="bookingsAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Reservation</a>
+            <a href="statisticAdmin.php" class="text-gray-700 hover:text-red-500 font-semibold">Statistique</a>
             <a href="logout.php" class="text-gray-700 hover:text-red-500 font-semibold">Déconnexion</a>
         </nav>
     </div>
 </header>
+
 <main class="pt-24 max-w-6xl mx-auto px-6">
     <section class="py-10 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4">

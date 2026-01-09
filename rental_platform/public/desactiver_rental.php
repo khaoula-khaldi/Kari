@@ -18,8 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['rental_id'])) {
     if ($rental->deactivateRental($rental_id)) {
         header('Location: rentalAdmin.php');
         exit;
-    } else {
-        echo "Erreur lors de la suppression";
+    }else{
+        echo "erreur de supprime";
     }
    
 }

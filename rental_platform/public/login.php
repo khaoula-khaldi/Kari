@@ -70,7 +70,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST'){
 
 
     } else {
-        $errorMessage = "Email ou mot de passe incorrect";
+        header('Location: erreurDesactivation.php');
+        exit;
     }
 
 }
