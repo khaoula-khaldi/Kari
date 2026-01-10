@@ -107,7 +107,7 @@ if (!isset($_SESSION['user_id'])) {
                     <p>Price total: <?= htmlspecialchars($total_price) ?> €</p>
 
                 <form method="POST" action="cancel_booking.php">
-                    <input type="hidden" name="rental_id" value="<?= $r['rental_id'] ?>">
+                    <input type="hidden" name="reservation_id" value="<?= $r['reservation_id'] ?>">
                     <button type="submit" class="bg-red-400 px-4 py-2 rounded-xl text-white mt-5">Annuler</button>
                 </form>
                 </div>

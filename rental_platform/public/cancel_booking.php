@@ -1,18 +1,18 @@
 <?php 
-// session_start();
-// require_once __DIR__."/../config/config.php";
-// require_once __DIR__ . '/../src/rental.php';
-// require_once __DIR__ . '/../src/Booking.php';
-// require_once __DIR__ . '/../src/User.php';
+session_start();
+$user_id=$_SESSION['user_id'];
+require_once __DIR__."/../config/config.php";
 
-// if($_SERVER['REQUEST_METHOD']==='POST'){
-//     $rental_id=$_POST['rental_id'];
+require_once __DIR__ . '/../src/User.php';
 
-//     $user=new User($pdo, '', '', '', '');
-//     $cancelBooking=new Booking($pdo);
-//     $cancelBooking->cancel( $user, $rental_id);
-//     header('Location: profil.php');
-//     exit;
-// }
-// // $user = new User($pdo, '', $email, $password, '');
+if($_SERVER['REQUEST_METHOD']==='POST'){
+    $reservation_id=$_POST['reservation_id'];
+
+    $user=new User($pdo, '', '', '', '');
+
+    $user->cancel($reservation_id, $user_id);
+    header('Location: profil.php');
+    exit;
+}
+// $user = new User($pdo, '', $email, $password, '');
 ?>

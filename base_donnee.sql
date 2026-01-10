@@ -32,6 +32,19 @@ CREATE TABLE rentals (
 
 
 
+
+
+SELECT users.name,users.email,rentals.title,reservations.start_date
+ AS date_debut,reservations.end_date 
+AS date_fin ,reservations.id AS reservation_id 
+FROM reservations 
+INNER JOIN users 
+ON reservations.user_id = users.id 
+INNER JOIN rentals 
+ON reservations.rental_id = rentals.id;
+
+
+
 CREATE TABLE reservations (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,        
@@ -41,9 +54,10 @@ CREATE TABLE reservations (
     status ENUM('pending','confirmed','cancelled') DEFAULT 'pending',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (rental_id) REFERENCES rentals(id)
+    FOREIGN KEY (user_id) REFERENCES users(id) delete on cascade,
+    FOREIGN KEY (rental_id) REFERENCES rentals(id)  delete on cascade
 );
+
 
 
 CREATE TABLE reviews (

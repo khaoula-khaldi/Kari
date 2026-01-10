@@ -54,15 +54,15 @@
                         <p class="text-gray-600"><span class="font-semibold">Role:</span> <?= $r['role'] ?></p>
                         <p class="text-gray-600"><span class="font-semibold">Email:</span> <?= $r['email'] ?></p>
                     </div>
-                    <button 
-                        class="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl shadow-md transition-colors duration-200">
-                        Désactiver
-                    </button>
+                    <form action="deactiveUsers.php" method="POST">
+                            <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                            <button type="submit" name="is_active" 
+                                value="<?= $r['is_active']==='active' ? 'inactive' : 'active' ?>" 
+                                class="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl shadow-md transition-colors duration-200">
+                                <?= $r['is_active']==='active' ? 'Desactive' : 'Active' ?>
+                            </button>
+                    </form>
 
-                    <button 
-                        class="mt-4 w-full bg-green-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl shadow-md transition-colors duration-200">
-                        Activer
-                    </button>
                 </div>
                 <?php endforeach; ?>
             </div>

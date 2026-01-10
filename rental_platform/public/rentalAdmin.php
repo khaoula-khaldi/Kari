@@ -10,30 +10,8 @@ $pdo = $database->getConnection();
 
 $rental = new Rental($pdo, $_SESSION['user_id'], "", "", "", "", 0.0, 0, "", "");
 
-$allRentals = $rental->affichAll();
+$allRentals = $rental->affichAllAdmin();
 
-$results = [];
-$isSearch = false;
-
-
-if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
-
-    $city = !empty($_GET['city']) ? $_GET['city'] : null;
-    $max_price = !empty($_GET['max_price']) ? $_GET['max_price'] : null;
-
-    $available_dates = null;
-    if (!empty($_GET['start_date']) && !empty($_GET['end_date'])) {
-        $available_dates = [
-            'start' => $_GET['start_date'],
-            'end'   => $_GET['end_date']
-        ];
-    }
-
-    if ($city || $max_price || $available_dates) {
-        $results = $rental->search($city, $max_price, $available_dates);
-        $isSearch = true;
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -85,23 +63,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
                         </button>
                     </form>
 
-                    <form action="desactiver_rental.php" method="POST">
-                        <input type="hidden" name="rental_id" value="<?= $r['id'] ?>">
-                        <input type="hidden" name="user_id" value="<?= $r['host_id'] ?>">
-
-                        <button class="bg-pink-400 px-4 py-2 rounded-xl text-white mt-5">
-                            Desactiver
-                        </button>
-                    </form>
-
                     <form action="active_rental.php" method="POST">
-                        <input type="hidden" name="rental_id" value="<?= $r['id'] ?>">
-                        <input type="hidden" name="user_id" value="<?= $r['host_id'] ?>">
-
-                        <button class="bg-pink-400 px-4 py-2 rounded-xl text-white mt-5">
-                            Activer
+                        <input type="hidden" name="id" value="<?= $r['id'] ?>">
+                        <button type="submit" name="is_active" 
+                                value="<?= $r['is_active']==='active' ? 'inactive' : 'active' ?>" 
+                                class="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-3 rounded-xl shadow-md transition-colors duration-200 px-5 py-3">
+                                <?= $r['is_active']==='active' ? 'Desactive' : 'Active' ?>
                         </button>
                     </form>
+
                 </div>
                 
             </div>

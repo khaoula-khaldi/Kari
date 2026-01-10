@@ -66,6 +66,14 @@ class Rental{
     }
 
     public function affichAll() {
+      
+        $stmt = $this->pdo->prepare("SELECT * FROM rentals WHERE is_active='active'");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function affichAllAdmin() {
+      
         $stmt = $this->pdo->prepare("SELECT * FROM rentals");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -93,18 +101,15 @@ class Rental{
        $stmt=$this->pdo->prepare($sql);
        $stmt->execute($parametres);
        
-       return $stmt->fetchAll(PDO::FETCH_ASSOC);
+       return $stmt->affichAll(PDO::FETCH_ASSOC);
     }
 
-    public function deactivateRental($id):bool {
-        $stmt = $this->pdo->prepare("UPDATE rentals SET status = 'inactive' WHERE id = ?");
-        return $stmt->execute([$id]);
+    public function deactivateRental($value,$id):bool {
+        $stmt = $this->pdo->prepare("UPDATE rentals SET is_active = ? WHERE id = ?");
+        return $stmt->execute([$value,$id]);
     }
 
-    public function activateRental($id):bool {
-        $stmt = $this->pdo->prepare("UPDATE rentals SET status = 'active' WHERE id = ?");
-        return $stmt->execute([$id]);
-    }
+
 
     //  public static function emailHost(){
     //     $stmt=$pdo->prepare("select u.email from rentals r join users u  ON r.host_id=u.id WHERE r.id=?");

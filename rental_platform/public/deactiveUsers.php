@@ -2,7 +2,7 @@
 
     session_start();
     require_once __DIR__ . '/../config/config.php';
-    require_once __DIR__ . '/../src/rental.php';
+    require_once __DIR__ . '/../src/User.php';
 
     $database = new Database();
     $pdo = $database->getConnection();
@@ -16,8 +16,8 @@
 if($_SERVER['REQUEST_METHOD']==='POST'){
     $is_active = $_POST['is_active']; 
     $id = $_POST['id'];
-    $rental = new Rental($pdo, 0, "", "", "", "", 0.0, 0, "", "");
-    $rental->deactivateRental($is_active, $id);
-    header('Location: rentalAdmin.php');
+    $user = new User($pdo, '', '', '', '');
+    $user->Is_Active($is_active, $id);
+    header('Location: dashbord.php');
     exit;
 }

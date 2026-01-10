@@ -99,18 +99,20 @@ class User {
          return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function Is_Active($value,$user_id){
-        $stmt=$this->pdo("UPDATE users SET is_active=? WHERE user_id=?");
-       return $stmt->execute([$value,$user_id]);
+    public function Is_Active($value,$id){
+        $stmt=$this->pdo->prepare("UPDATE users SET is_active=? WHERE id=?");
+       return $stmt->execute([$value,$id]);
     }
 
    
 
+    public function cancelAdmin(int $reservation_id): bool {
+        $stmt = $this->pdo->prepare("UPDATE reservations SET status='cancelled' WHERE id=?");
+        return $stmt->execute([$reservation_id]);
+    }
 
-
-    // public function is_acrtiveRental(){
-    //     $stmt=$this->pdo->prepare("UPDATE rentals ")
-    // }
-
-
+    public function cancel(int $reservation_id, $user_id): bool {
+            $stmt = $this->pdo->prepare("DELETE FROM reservations WHERE id=? AND user_id=?");
+            return $stmt->execute([$reservation_id, $user_id]);
+    }
 }

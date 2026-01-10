@@ -80,7 +80,7 @@ if (!isset($_SESSION['user_id'])) {
             $email=$_POST['email'];
             $user = new User($pdo, $name, $email, '', '');
             if($user->update()){
-                header('Location: profil.php'); // page après update
+                header('Location: profilAdmin.php'); // page après update
                 exit;
             } else {
                 $errorMessage = "Erreur lors de la mise à jour du profil";

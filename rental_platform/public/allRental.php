@@ -108,7 +108,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && !empty($_GET)) {
     <h2 class="text-3xl font-bold mb-6">Tous les logements</h2>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <?php foreach ($allRentals as $r): ?>
+        <?php foreach ($allRentals as $r ): ?>
             <div class="bg-white rounded-2xl shadow p-6">
                 <img src="<?= htmlspecialchars($r['image_url']) ?>"
                      class="rounded-xl h-48 w-full object-cover mb-4">

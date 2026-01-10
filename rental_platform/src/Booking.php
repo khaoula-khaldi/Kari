@@ -13,7 +13,7 @@ class Booking{
     private string $end_date;
     private float $total_price;
     private string $status;
-    private PDO $pdo;
+    protected PDO $pdo;
  
 
     public function __construct(PDO $pdo){
@@ -26,8 +26,8 @@ class Booking{
         return $stmt->execute([$user_id,$rental_id,$start_date,$end_date]);
     }
    
-    public function cancel(){
-        
+    public function cancel(int $reservation_id): bool {
+        return false;
     }
 
     public function findUserBookings($user_id){
@@ -93,7 +93,7 @@ class Booking{
     }
 
     public function getAllReservation(){
-        $stmt=$this->pdo->prepare("SELECT users.name,users.email,rentals.title,reservations.start_date AS date_debut,reservations.end_date AS date_fin FROM reservations INNER JOIN users ON reservations.user_id = users.id INNER JOIN rentals ON reservations.rental_id = rentals.id ");
+        $stmt=$this->pdo->prepare("SELECT users.name,users.email,rentals.title,reservations.start_date AS date_debut,reservations.end_date AS date_fin ,reservations.id AS reservation_id FROM reservations INNER JOIN users ON reservations.user_id = users.id INNER JOIN rentals ON reservations.rental_id = rentals.id ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
