@@ -99,6 +99,11 @@ $affich=$booking->getAllReservation();
         <input type="hidden" name="reservation_id" value="<?= $a['reservation_id'] ?>">
       <button class="text-red-500 hover:underline">Annuler</button>
       </form>
+
+      <form action="accepterBokokingAdmin.php" method="POST">
+        <input type="hidden" name="reservation_id" value="<?= $a['reservation_id'] ?>">
+        <button class="text-green-500 hover:underline">Accepter</button>
+      </form>
     </td>
   </tr>
 <?php endforeach; ?>

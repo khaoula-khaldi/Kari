@@ -111,6 +111,11 @@ class User {
         return $stmt->execute([$reservation_id]);
     }
 
+    public function accepteAdmin(int $reservation_id): bool {
+        $stmt = $this->pdo->prepare("UPDATE reservations SET status='confirmed' WHERE id=?");
+        return $stmt->execute([$reservation_id]);
+    }
+
     public function cancel(int $reservation_id, $user_id): bool {
             $stmt = $this->pdo->prepare("DELETE FROM reservations WHERE id=? AND user_id=?");
             return $stmt->execute([$reservation_id, $user_id]);
