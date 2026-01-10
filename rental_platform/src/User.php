@@ -85,10 +85,10 @@ class User {
         $success = $stmt->execute([$this->nom, $this->email, $_SESSION['user_id']]);
 
         // Refresh session si update réussi
-        if($success){
-            $_SESSION['user_name'] = $this->nom;
-            $_SESSION['user_email'] = $this->email;
-        }
+            if($success){
+                $_SESSION['user_name'] = $this->nom;
+                $_SESSION['user_email'] = $this->email;
+            }
 
         return $success;
     }
@@ -96,7 +96,7 @@ class User {
     public function getAllUser():array{
         $stmt=$this->pdo->prepare("SELECT * FROM users WHERE role!='admin'");
         $stmt->execute();
-         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function Is_Active($value,$id){

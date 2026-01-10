@@ -90,13 +90,13 @@ $affich=$booking->getAllReservation();
 
     <td class="px-6 py-4">
       <span class="px-3 py-1 rounded-full text-sm bg-green-100 text-green-700">
-        <?= $a['status'] ?? 'pending' ?>
+        <?= $a['status']  ?>
       </span>
     </td>
 
     <td class="px-6 py-4 text-center space-x-3">
       <form action="anulerBookingAdmin.php" method="POST">
-        <input type="text" name="reservation_id" $value="<?= htmlspecialchars($a['reservation_id']) ?>">
+        <input type="hidden" name="reservation_id" value="<?= $a['reservation_id'] ?>">
       <button class="text-red-500 hover:underline">Annuler</button>
       </form>
     </td>

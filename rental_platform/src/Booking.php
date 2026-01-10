@@ -93,7 +93,7 @@ class Booking{
     }
 
     public function getAllReservation(){
-        $stmt=$this->pdo->prepare("SELECT users.name,users.email,rentals.title,reservations.start_date AS date_debut,reservations.end_date AS date_fin ,reservations.id AS reservation_id FROM reservations INNER JOIN users ON reservations.user_id = users.id INNER JOIN rentals ON reservations.rental_id = rentals.id ");
+        $stmt=$this->pdo->prepare("SELECT users.name,users.email,rentals.title,reservations.start_date AS date_debut,reservations.end_date AS date_fin ,reservations.id AS reservation_id , reservations.status FROM reservations INNER JOIN users ON reservations.user_id = users.id INNER JOIN rentals ON reservations.rental_id = rentals.id ");
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
