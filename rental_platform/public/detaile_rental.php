@@ -34,7 +34,7 @@ $rentals = $rentalObj->affichRentalById($id);
         ← Retour aux logements
     </a>
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-50">
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-50">
 
         <!-- ===== LEFT : DÉTAIL LOGEMENT ===== -->
         <div class="lg:col-span-2 bg-white rounded-2xl shadow overflow-hidden">
@@ -72,12 +72,17 @@ $rentals = $rentalObj->affichRentalById($id);
                 <p class="text-gray-700 leading-relaxed">
                     <?= htmlspecialchars($rentals['description']) ?>
                 </p>
+
+                <form action="formReviews.php" method="POST">
+                    
+                    <button class="text-green-500 hover:underline">ajouter un avis</button>
+                </form>
                
             </div>
         </div>
 
         <!-- ===== RIGHT : RÉSERVATION ===== -->
-        <div class="bg-white rounded-2xl shadow p-6 m-10 h-fit sticky top-6">
+        <div class="lg:col-span-2 bg-white rounded-2xl shadow p-6 m-10 h-fit sticky top-6">
 
             <h2 class="text-2xl font-bold mb-4">
                 Réserver ce logement
